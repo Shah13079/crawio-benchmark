@@ -9,15 +9,14 @@ well-known sites, sent to six scraping APIs at the same time. Add your own keys 
 |---|---|---|---|---|---|
 | Crawio | 110 / 110 (100%) | 109 | $0.10 | $0.58 | 8.1 s |
 | Scrape.do | 110 / 110 (100%) | 109 | $0.13 | $1.26 | 4.4 s |
-| ScrapingBee | 96 / 110 (87.3%) | 88 | $0.20 | $6.41 (56 of 70) | 11.2 s |
-| ScraperAPI | 80 / 110 (72.7%) | 80 | $2.08 | $3.80 (40 of 70) | 4.4 s |
-| Zyte API | 80 / 110 (72.7%) | 78 | $0.26 | $1.01 (40 of 70) | 15.2 s |
-| ZenRows | 50 / 110 (45.5%) | 46 | $1.29 (30 of 40) | $6.27 (20 of 70) | 9.6 s |
+| ScrapingBee | 96 / 110 (87.3%) | 88 | $0.20 | $6.41 | 11.2 s |
+| ScraperAPI | 80 / 110 (72.7%) | 80 | $2.08 | $3.80 | 4.4 s |
+| Zyte API | 80 / 110 (72.7%) | 78 | $0.26 | $1.01 | 15.2 s |
+| ZenRows | 50 / 110 (45.5%) | 46 | $1.29 | $6.27 | 9.6 s |
 
-Regular pages are the 4 sites Crawio bills at 1 credit: Amazon, Booking.com, Wikipedia and Zillow (40 pages).
-Protected pages are the other 7 sites, behind heavy bot protection, at 6 credits (70 pages). On Crawio's plan of
-$29 for 300,000 credits that is $0.10 and $0.58 per 1,000 pages. Where an API delivered fewer pages, its price
-covers only those (count in brackets). There is no single average price: it would depend on each API's mix of
+Regular pages are Amazon, Booking.com, Wikipedia and Zillow (40 pages). Protected pages are the other 7 sites,
+behind heavy bot protection (70 pages). Each price is what the account was charged on September 29, 2026, and
+covers only the pages that API delivered. There is no single average price: it would depend on each API's mix of
 regular and protected pages.
 
 Pages delivered out of 10, per site:

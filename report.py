@@ -139,9 +139,10 @@ def totals(t, zyte_usd):
 
 def by_type(t, zyte_usd):
     """Dollars per 1,000 delivered pages per provider, apart for regular and protected pages. Regular = the sites
-    where Crawio charged 1 credit a page, protected = the other sites (Crawio's credit rule: 1 or 6). One average
-    over both would depend on each provider's mix of the two. Empty when the run has no Crawio rows."""
-    regular = {r["site"] for r in t if r["provider"] == "crawio" and r["credits_per_page"] == 1}
+    where Crawio charged its lowest rate, protected = the other sites. One average over both would depend on each
+    provider's mix of the two. Empty when the run has no Crawio rows."""
+    crawio = [r["credits_per_page"] for r in t if r["provider"] == "crawio" and r["credits_per_page"]]
+    regular = {r["site"] for r in t if r["provider"] == "crawio" and crawio and r["credits_per_page"] == min(crawio)}
     if not regular:
         return {}, regular
     agg = defaultdict(lambda: {"asked": 0, "final": 0, "credits": 0.0, "zyte_usd": 0.0, "sites": 0, "priced": 0})
@@ -216,7 +217,8 @@ def main(folders):
             ("$%.2f" % a["usd_per_1k"]) if a["usd_per_1k"] is not None else "?", a["median_s"], a["search_credits"]))
     bt, regular = by_type(t, zyte_usd)
     if bt:
-        print("\nRegular pages = %s (Crawio: 1 credit a page); protected pages = the other sites." % ", ".join(sorted(regular)))
+        print("\nRegular pages = %s (the sites Crawio billed at its lowest rate); protected pages = the other sites."
+              % ", ".join(sorted(regular)))
         print("\n| Provider | $ per 1k regular pages | $ per 1k protected pages |")
         print("|---|---|---|")
         for p in provs:
@@ -226,8 +228,7 @@ def main(folders):
                 if not c or c["usd_per_1k"] is None:
                     cells.append("?")
                 else:
-                    cells.append("$%.2f%s" % (c["usd_per_1k"], "" if c["delivered"] == c["asked"]
-                                              else " (%d of %d)" % (c["delivered"], c["asked"])))
+                    cells.append("$%.2f" % c["usd_per_1k"])
             print("| %s | %s |" % (p, " | ".join(cells)))
     print("\n| Provider | Account | Requests | Credits reported | Balance drop | Gap |")
     print("|---|---|---|---|---|---|")
