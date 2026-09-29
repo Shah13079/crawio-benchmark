@@ -5,14 +5,20 @@ well-known sites, sent to six scraping APIs at the same time. Add your own keys 
 
 ## Results (September 29, 2026, 06:32 to 06:59 UTC)
 
-| API | Delivered (within 2 tries) | First try | $ per 1,000 delivered | Median time |
-|---|---|---|---|---|
-| Crawio | 110 / 110 (100%) | 109 | $0.40 | 8.1 s |
-| Scrape.do | 110 / 110 (100%) | 109 | $0.85 | 4.4 s |
-| ScrapingBee | 96 / 110 (87.3%) | 88 | $3.82 | 11.2 s |
-| ScraperAPI | 80 / 110 (72.7%) | 80 | $2.94 | 4.4 s |
-| Zyte API | 80 / 110 (72.7%) | 78 | $0.64 | 15.2 s |
-| ZenRows | 50 / 110 (45.5%) | 46 | $3.28 | 9.6 s |
+| API | Delivered (within 2 tries) | First try | $ per 1,000 regular pages | $ per 1,000 protected pages | Median time |
+|---|---|---|---|---|---|
+| Crawio | 110 / 110 (100%) | 109 | $0.10 | $0.58 | 8.1 s |
+| Scrape.do | 110 / 110 (100%) | 109 | $0.13 | $1.26 | 4.4 s |
+| ScrapingBee | 96 / 110 (87.3%) | 88 | $0.20 | $6.41 (56 of 70) | 11.2 s |
+| ScraperAPI | 80 / 110 (72.7%) | 80 | $2.08 | $3.80 (40 of 70) | 4.4 s |
+| Zyte API | 80 / 110 (72.7%) | 78 | $0.26 | $1.01 (40 of 70) | 15.2 s |
+| ZenRows | 50 / 110 (45.5%) | 46 | $1.29 (30 of 40) | $6.27 (20 of 70) | 9.6 s |
+
+Regular pages are the 4 sites Crawio bills at 1 credit: Amazon, Booking.com, Wikipedia and Zillow (40 pages).
+Protected pages are the other 7 sites, behind heavy bot protection, at 6 credits (70 pages). On Crawio's plan of
+$29 for 300,000 credits that is $0.10 and $0.58 per 1,000 pages. Where an API delivered fewer pages, its price
+covers only those (count in brackets). There is no single average price: it would depend on each API's mix of
+regular and protected pages.
 
 Pages delivered out of 10, per site:
 
@@ -30,8 +36,8 @@ Pages delivered out of 10, per site:
 | eBay | 10 | 10 | 10 | 10 | 10 | 10 |
 | Wikipedia | 10 | 10 | 10 | 10 | 10 | 10 |
 
-Cost is what each account was charged (checked against every account's balance and billing dashboard),
-priced on each API's entry plan: Crawio $29 for 300,000 credits, Scrape.do $29 for 250,000, ScrapingBee $49
+Cost is what each account was charged (checked against every account's balance and billing dashboard), per
+1,000 delivered pages, priced on each API's entry plan: Crawio $29 for 300,000 credits, Scrape.do $29 for 250,000, ScrapingBee $49
 for 250,000, ScraperAPI $49 for 100,000, ZenRows $57 for 250,000, Zyte API pay as you go. Credits a competitor
 spent finding its setting are in the log, not in its price.
 
@@ -45,7 +51,9 @@ spent finding its setting are in the log, not in its price.
 - **ScrapingBee on Indeed.** Its cheapest setting worked on the first page, then failed. Its premium setting got
   10 of 10 in an earlier run the same day.
 - **Small sample.** 10 pages per site.
-- **Speed.** Crawio is slower than Scrape.do: a median of 8.1 s against 4.4 s.
+- **Speed.** Crawio is slower overall: a median of 8.1 s against Scrape.do's 4.4 s. On regular pages Crawio was
+  faster, 3.6 s against 4.3 s. On protected pages it was slower, 17.9 s against 4.5 s; its first 5 pages on each
+  protected site took 22.0 s, the next 5 took 10.9 s.
 
 ## How it works
 
@@ -68,7 +76,7 @@ export SCRAPERAPI_KEY=...     ZENROWS_KEY=...    ZYTE_KEY=...
 
 python bench.py --set b --dry                              # the URLs and each API's account, no page requests
 python bench.py --set b --per-site 10 --out results/run    # the run
-python report.py results/run                               # tables + per-account credit check
+python report.py results/run                               # tables, cost by page type, per-account credit check
 ```
 
 Each run folder gets `run.json` (times, settings, balances before and after), `urls.json`, `requests.csv`

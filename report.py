@@ -137,6 +137,33 @@ def totals(t, zyte_usd):
     return out
 
 
+def by_type(t, zyte_usd):
+    """Dollars per 1,000 delivered pages per provider, apart for regular and protected pages. Regular = the sites
+    where Crawio charged 1 credit a page, protected = the other sites (Crawio's credit rule: 1 or 6). One average
+    over both would depend on each provider's mix of the two. Empty when the run has no Crawio rows."""
+    regular = {r["site"] for r in t if r["provider"] == "crawio" and r["credits_per_page"] == 1}
+    if not regular:
+        return {}, regular
+    agg = defaultdict(lambda: {"asked": 0, "final": 0, "credits": 0.0, "zyte_usd": 0.0, "sites": 0, "priced": 0})
+    for r in t:
+        a = agg[(r["provider"], "regular" if r["site"] in regular else "protected")]
+        a["asked"] += r["asked"]; a["final"] += r["final_ok"]; a["credits"] += r["page_credits"]
+        a["sites"] += 1
+        if r["provider"] == "zyte" and r["site"] in zyte_usd:
+            a["zyte_usd"] += float(zyte_usd[r["site"]]); a["priced"] += 1
+    out = {}
+    for (p, kind), a in agg.items():
+        usd = None
+        if p == "zyte":
+            if a["final"] and a["priced"] == a["sites"]:
+                usd = round(a["zyte_usd"] / a["final"] * 1000, 2)
+        elif a["final"]:
+            price, per_plan = bench.PLANS[p]["entry"]
+            usd = round(a["credits"] * price / per_plan / a["final"] * 1000, 2)
+        out[(p, kind)] = {"asked": a["asked"], "delivered": a["final"], "usd_per_1k": usd}
+    return out, regular
+
+
 def accounts(rows, runs):
     """Credits the replies reported per account (every row, the setting search and nocredit rows included:
     it is what the account was charged), next to the account's balance drop from run.json."""
@@ -187,6 +214,21 @@ def main(folders):
         print("| %s | %d/%d (%.1f%%) | %d/%d (%.1f%%) | %s | %s | %s |" % (
             p, a["first_try"], a["asked"], a["first_pct"], a["within_two"], a["asked"], a["final_pct"],
             ("$%.2f" % a["usd_per_1k"]) if a["usd_per_1k"] is not None else "?", a["median_s"], a["search_credits"]))
+    bt, regular = by_type(t, zyte_usd)
+    if bt:
+        print("\nRegular pages = %s (Crawio: 1 credit a page); protected pages = the other sites." % ", ".join(sorted(regular)))
+        print("\n| Provider | $ per 1k regular pages | $ per 1k protected pages |")
+        print("|---|---|---|")
+        for p in provs:
+            cells = []
+            for kind in ("regular", "protected"):
+                c = bt.get((p, kind))
+                if not c or c["usd_per_1k"] is None:
+                    cells.append("?")
+                else:
+                    cells.append("$%.2f%s" % (c["usd_per_1k"], "" if c["delivered"] == c["asked"]
+                                              else " (%d of %d)" % (c["delivered"], c["asked"])))
+            print("| %s | %s |" % (p, " | ".join(cells)))
     print("\n| Provider | Account | Requests | Credits reported | Balance drop | Gap |")
     print("|---|---|---|---|---|---|")
     for a in acc:
@@ -198,7 +240,8 @@ def main(folders):
     for r in t:
         r.pop("secs")
     with open(os.path.join(folders[0], "report.json"), "w", encoding="utf-8") as fh:
-        json.dump({"dead_urls": dead, "table": t, "totals": tt, "accounts": acc}, fh, indent=1)
+        json.dump({"dead_urls": dead, "table": t, "totals": tt, "accounts": acc,
+                   "by_type": {"%s/%s" % k: v for k, v in bt.items()}}, fh, indent=1)
 
 
 if __name__ == "__main__":
