@@ -1,7 +1,8 @@
 # Crawio scraping API benchmark
 
 The test behind [crawio.com/benchmark](https://crawio.com/benchmark/): the same 110 fresh pages from 11
-well-known sites, sent to six scraping APIs at the same time. Add your own keys and rerun it.
+well-known sites, 7 of them behind heavy bot protection, sent to six scraping APIs at the same time. Add your own
+keys and rerun it.
 
 ## Results (September 29, 2026, 06:32 to 06:59 UTC)
 
