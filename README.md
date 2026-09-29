@@ -51,7 +51,8 @@ spent finding its setting are in the log, not in its price.
 - **ScrapingBee on Indeed.** Its cheapest setting worked on the first page, then failed. Its premium setting got
   10 of 10 in an earlier run the same day.
 - **Small sample.** 10 pages per site.
-- **Speed.** Crawio is slower overall: a median of 8.1 s against Scrape.do's 4.4 s. On regular pages Crawio was
+- **Speed.** Crawio is slower overall: a median of 8.1 s against 4.4 s for the other API that delivered every
+  page. On regular pages Crawio was
   faster, 3.6 s against 4.3 s. On protected pages it was slower, 17.9 s against 4.5 s; its first 5 pages on each
   protected site took 22.0 s, the next 5 took 10.9 s.
 
