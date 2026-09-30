@@ -1,12 +1,12 @@
 # Crawio scraping API benchmark
 
 The test behind [crawio.com/benchmark](https://crawio.com/benchmark/): the same 110 fresh pages from 11
-well-known sites, 7 of them behind heavy bot protection, sent to six scraping APIs at the same time. Add your own
+well-known sites, 10 of them behind bot protection, sent to six scraping APIs at the same time. Add your own
 keys and rerun it.
 
 ## Results (September 29, 2026, 06:32 to 06:59 UTC)
 
-| API | Delivered (within 2 tries) | First try | $ per 1,000 regular pages | $ per 1,000 protected pages | Median time |
+| API | Delivered (within 2 tries) | First try | $ per 1,000 standard pages | $ per 1,000 heavily protected pages | Median time |
 |---|---|---|---|---|---|
 | Crawio | 110 / 110 (100%) | 109 | $0.10 | $0.58 | 8.1 s |
 | Scrape.do | 110 / 110 (100%) | 109 | $0.13 | $1.26 | 4.4 s |
@@ -15,10 +15,10 @@ keys and rerun it.
 | Zyte API | 80 / 110 (72.7%) | 78 | $0.26 | $1.01 | 15.2 s |
 | ZenRows | 50 / 110 (45.5%) | 46 | $1.29 | $6.27 | 9.6 s |
 
-Regular pages are Amazon, Booking.com, Wikipedia and Zillow (40 pages). Protected pages are the other 7 sites,
-behind heavy bot protection (70 pages). Each price is what the account was charged on September 29, 2026, and
+Standard pages are Amazon, Booking.com, Wikipedia and Zillow (40 pages). Heavily protected pages are the other 7
+sites (70 pages). Each price is what the account was charged on September 29, 2026, and
 covers only the pages that API delivered. There is no single average price: it would depend on each API's mix of
-regular and protected pages.
+standard and heavily protected pages.
 
 Pages delivered out of 10, per site:
 
@@ -52,9 +52,9 @@ spent finding its setting are in the log, not in its price.
   10 of 10 in an earlier run the same day.
 - **Small sample.** 10 pages per site.
 - **Speed.** Crawio is slower overall: a median of 8.1 s against 4.4 s for the other API that delivered every
-  page. On regular pages Crawio was
-  faster, 3.6 s against 4.3 s. On protected pages it was slower, 17.9 s against 4.5 s; its first 5 pages on each
-  protected site took 22.0 s, the next 5 took 10.9 s.
+  page. On standard pages Crawio was
+  faster, 3.6 s against 4.3 s. On heavily protected pages it was slower, 17.9 s against 4.5 s; its first 5 pages on
+  each heavily protected site took 22.0 s, the next 5 took 10.9 s.
 
 ## How it works
 
