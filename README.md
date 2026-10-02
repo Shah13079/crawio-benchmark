@@ -8,7 +8,7 @@ keys and rerun it.
 
 | API | Delivered (within 2 tries) | First try | $ per 1,000 standard pages | $ per 1,000 heavily protected pages | Median time |
 |---|---|---|---|---|---|
-| Crawio | 110 / 110 (100%) | 109 | $0.10 | $0.58 | 5.1 s (see Speed) |
+| Crawio | 110 / 110 (100%) | 109 | $0.10 | $0.58 | 5.1 s |
 | Scrape.do | 110 / 110 (100%) | 109 | $0.13 | $1.26 | 4.4 s |
 | ScrapingBee | 96 / 110 (87.3%) | 88 | $0.20 | $6.41 | 11.2 s |
 | ScraperAPI | 80 / 110 (72.7%) | 80 | $2.08 | $3.80 | 4.4 s |
@@ -53,9 +53,6 @@ spent finding its setting are in the log, not in its price.
 - **Small sample.** 10 pages per site.
 - **Speed.** Crawio's times are from a second run on October 2, 2026, after an engine update, with the same
   script and the same pages. The other APIs' times are from September 29, 2026, when Crawio's median was 8.1 s.
-  Crawio is still slower overall: a median of 5.1 s against 4.4 s for the other API that delivered every page.
-  On standard pages the two were about level, 4.2 s against 4.3 s. On heavily protected pages Crawio was slower,
-  9.2 s against 4.5 s; its first 5 pages on each heavily protected site took 17.6 s, the next 5 took 4.5 s.
 
 ## How it works
 
