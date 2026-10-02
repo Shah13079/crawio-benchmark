@@ -8,7 +8,7 @@ keys and rerun it.
 
 | API | Delivered (within 2 tries) | First try | $ per 1,000 standard pages | $ per 1,000 heavily protected pages | Median time |
 |---|---|---|---|---|---|
-| Crawio | 110 / 110 (100%) | 109 | $0.10 | $0.58 | 8.1 s |
+| Crawio | 110 / 110 (100%) | 109 | $0.10 | $0.58 | 5.1 s (see Speed) |
 | Scrape.do | 110 / 110 (100%) | 109 | $0.13 | $1.26 | 4.4 s |
 | ScrapingBee | 96 / 110 (87.3%) | 88 | $0.20 | $6.41 | 11.2 s |
 | ScraperAPI | 80 / 110 (72.7%) | 80 | $2.08 | $3.80 | 4.4 s |
@@ -51,10 +51,11 @@ spent finding its setting are in the log, not in its price.
 - **ScrapingBee on Indeed.** Its cheapest setting worked on the first page, then failed. Its premium setting got
   10 of 10 in an earlier run the same day.
 - **Small sample.** 10 pages per site.
-- **Speed.** Crawio is slower overall: a median of 8.1 s against 4.4 s for the other API that delivered every
-  page. On standard pages Crawio was
-  faster, 3.6 s against 4.3 s. On heavily protected pages it was slower, 17.9 s against 4.5 s; its first 5 pages on
-  each heavily protected site took 22.0 s, the next 5 took 10.9 s.
+- **Speed.** Crawio's times are from a second run on October 2, 2026, after an engine update, with the same
+  script and the same pages. The other APIs' times are from September 29, 2026, when Crawio's median was 8.1 s.
+  Crawio is still slower overall: a median of 5.1 s against 4.4 s for the other API that delivered every page.
+  On standard pages the two were about level, 4.2 s against 4.3 s. On heavily protected pages Crawio was slower,
+  9.2 s against 4.5 s; its first 5 pages on each heavily protected site took 17.6 s, the next 5 took 4.5 s.
 
 ## How it works
 
@@ -89,6 +90,9 @@ its dashboard shows per site in `results/run/zyte_usd.json` (`{"amazon": 0.0023,
 `results/crawio-benchmark-2026-09-29.csv` is the September 29 run: every attempt with time, API, site, URL,
 attempt type (`setting search`, `first try`, `retry`), setting, status codes, delivered, seconds, credits and
 cost in dollars on the entry plan. Account labels, request ids and page text are left out.
+
+`results/crawio-benchmark-2026-10-02-crawio.csv` is Crawio's second run (October 2, 2026, 09:53 UTC), the
+source of its times above: the same 110 pages, the same script, the same columns.
 
 ## License
 
